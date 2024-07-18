@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Spinner
-        android:id="@+id/spinnerManufacturer"
+        android:id="@+id/spinnerModel"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
@@ -17,13 +17,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinnerModel"
+        android:id="@+id/spinnerAssetType"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerManufacturer" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerModel" />
 
     <Spinner
         android:id="@+id/spinnerRoom"
@@ -32,7 +32,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerModel" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerAssetType" />
 
     <Button
         android:id="@+id/btnScan"
@@ -57,13 +57,42 @@
         app:layout_constraintTop_toBottomOf="@+id/spinnerRoom" />
 
     <Button
+        android:id="@+id/btnAddToRows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Add to Rows"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serialTxt" />
+
+    <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="16dp"
-        android:text="Save row"
+        android:text="Save rows"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewRowCount"
+        android:layout_width="135dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Rivejä skannattuna: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddToRows" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/textViewRowCount"
+        app:layout_constraintTop_toTopOf="@+id/textViewRowCount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
