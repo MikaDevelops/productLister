@@ -2,8 +2,11 @@ package com.example.mytestinggoeson;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import android.media.audiofx.DynamicsProcessing;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,9 +30,18 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     EditText serialTxt;
+    String valittuMalli = "";
+    String valittuTyyppi = "";
+    String valittuHuone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        String[] mallit = EquipmentData.mallit;
+
+        final String[] tyypit = EquipmentData.tyypit;
+
+        final String[] huoneet = EquipmentData.huoneet;
 
         ArrayList<String[]> rows = new ArrayList<>();
 
@@ -41,9 +53,53 @@ public class MainActivity extends AppCompatActivity {
         Spinner assetType = findViewById(R.id.spinnerAssetType);
         Spinner room = findViewById(R.id.spinnerRoom);
 
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, mallit);
+        ArrayAdapter arrayAdapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, tyypit);
+        ArrayAdapter arrayAdapter3 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, huoneet);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        arrayAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        model.setAdapter(arrayAdapter);
+        assetType.setAdapter(arrayAdapter2);
+        room.setAdapter(arrayAdapter3);
+
         serialTxt = findViewById(R.id.serialTxt);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnScan = findViewById(R.id.btnScan);
+
+        model.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                valittuMalli = arg0.getSelectedItem().toString();
+                //Toast.makeText(getApplicationContext(), valittuMalli, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        assetType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                valittuTyyppi = arg0.getSelectedItem().toString();
+                //Toast.makeText(getApplicationContext(), valittuTyyppi, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        room.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                valittuHuone = arg0.getSelectedItem().toString();
+                //Toast.makeText(getApplicationContext(), valittuHuone, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     // Tämä add row buttonille toiminnoksi.
-                    String[] row = {model.getSelectedItem().toString(), assetType.toString(),serialTxt.getText().toString(), "", room.getSelectedItem().toString(), ""};
-                    writeRowToFile(serialTxt.getText().toString());
+                    String row = valittuMalli +"\t"+ valittuTyyppi +"\t" + serialTxt.getText().toString() +"\t"+ "\t"+ valittuHuone +"\t"+ "\n";
+                    writeRowToFile(row);
                 }catch (IOException e){
                     e.printStackTrace();
                 }
