@@ -43,7 +43,6 @@
         app:layout_constraintStart_toEndOf="@+id/serialTxt"
         app:layout_constraintTop_toTopOf="@+id/serialTxt" />
 
-
     <EditText
         android:id="@+id/serialTxt"
         android:layout_width="wrap_content"
@@ -56,7 +55,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerRoom" />
 
+    <Button
+        android:id="@+id/btnScanMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Scan"
+        app:layout_constraintStart_toEndOf="@+id/macTxt"
+        app:layout_constraintTop_toTopOf="@+id/macTxt" />
 
+    <EditText
+        android:id="@+id/macTxt"
+        android:layout_width="160dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Extron mac"
+        android:inputType="text"
+        app:layout_constraintStart_toEndOf="@+id/textViewMac"
+        app:layout_constraintTop_toBottomOf="@+id/serialTxt" />
 
     <Button
         android:id="@+id/btnSave"
@@ -66,6 +83,15 @@
         android:layout_marginBottom="16dp"
         android:text="Save rows"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="00:05:A6:"
+        app:layout_constraintBottom_toBottomOf="@+id/macTxt"
         app:layout_constraintStart_toStartOf="parent" />
 
 

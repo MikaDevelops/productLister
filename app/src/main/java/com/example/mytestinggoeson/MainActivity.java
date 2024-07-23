@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     EditText serialTxt;
+    EditText macTxt;
+    TextView textViewMac;
     String valittuMalli = "";
     String valittuTyyppi = "";
     String valittuHuone = "";
@@ -64,8 +67,12 @@ public class MainActivity extends AppCompatActivity {
         room.setAdapter(arrayAdapter3);
 
         serialTxt = findViewById(R.id.serialTxt);
+        macTxt = findViewById(R.id.macTxt);
+        textViewMac = findViewById(R.id.textViewMac);
+
         Button btnSave = findViewById(R.id.btnSave);
         Button btnScan = findViewById(R.id.btnScan);
+        Button btnScanMac = findViewById(R.id.btnScanMac);
 
         model.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -110,6 +117,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnScanMac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ScanOptions scanOptions = new ScanOptions();
+                barcodeLauncher2.launch(scanOptions);
+
+            }
+        });
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +133,17 @@ public class MainActivity extends AppCompatActivity {
                     // Tämä add row buttonille toiminnoksi.
                     String row = valittuMalli +"\t"+ valittuTyyppi +"\t" + serialTxt.getText().toString() +"\t"+ "\t"+ valittuHuone +"\t"+ "\n";
                     writeRowToFile(row);
+                    if (macTxt.getText().toString() != "" || macTxt.getText().toString() != null){
+                        String macBegin = macTxt.getText().toString();
+                        String macToList = "" + macBegin.charAt(0) + macBegin.charAt(1) + ":" + macBegin.charAt(2) + macBegin.charAt(3) + ":" +  macBegin.charAt(4) + macBegin.charAt(5);
+                        Toast.makeText(getApplicationContext(), "mac end: "+ macBegin.charAt(0) +"n"+ macBegin.charAt(1), Toast.LENGTH_LONG).show();
+                        String row2 = valittuHuone +"\t"+ valittuMalli +"\t"+ textViewMac.getText().toString() + macToList +"\n";
+                        writeRowToFile(row2);
+                    }
+
+                    serialTxt.setText("");
+                    macTxt.setText("");
+
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -134,6 +161,17 @@ public class MainActivity extends AppCompatActivity {
             new ScanContract(), result -> {
                 if(result.getContents() != null){
                     serialTxt.setText(result.getContents());
+                    //Toast.makeText(getApplicationContext(), "scanned: "+result.getContents(), Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getApplicationContext(), "didn't work: ", Toast.LENGTH_LONG).show();
+                }
+            }
+    );
+
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher2 = registerForActivityResult(
+            new ScanContract(), result -> {
+                if(result.getContents() != null){
+                    macTxt.setText(result.getContents());
                     //Toast.makeText(getApplicationContext(), "scanned: "+result.getContents(), Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "didn't work: ", Toast.LENGTH_LONG).show();
