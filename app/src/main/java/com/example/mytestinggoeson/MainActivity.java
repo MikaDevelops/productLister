@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     // Tämä add row buttonille toiminnoksi.
                     String row = valittuMalli +"\t"+ valittuTyyppi +"\t" + serialTxt.getText().toString() +"\t"+ "\t"+ valittuHuone +"\t"+ "\n";
                     writeRowToFile(row);
-                    if (macTxt.getText().toString() != "" || macTxt.getText().toString() != null){
+                    if (!macTxt.getText().toString().isEmpty()){
                         String macBegin = macTxt.getText().toString();
                         String macToList = "" + macBegin.charAt(0) + macBegin.charAt(1) + ":" + macBegin.charAt(2) + macBegin.charAt(3) + ":" +  macBegin.charAt(4) + macBegin.charAt(5);
                         Toast.makeText(getApplicationContext(), "mac end: "+ macBegin.charAt(0) +"n"+ macBegin.charAt(1), Toast.LENGTH_LONG).show();
