@@ -24,9 +24,12 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String[] mallit = EquipmentData.mallit;
+        String[] mallit = this.readSpinnerStuff("devices.txt");
 
-        final String[] tyypit = EquipmentData.tyypit;
+        final String[] tyypit = this.readSpinnerStuff("types.txt");
 
-        final String[] huoneet = EquipmentData.huoneet;
+        final String[] huoneet = this.readSpinnerStuff("rooms.txt");
 
         ArrayList<String[]> rows = new ArrayList<>();
 
@@ -188,15 +191,37 @@ public class MainActivity extends AppCompatActivity {
             writer.close();
             Toast.makeText(getApplicationContext(), "data written into data.txt", Toast.LENGTH_SHORT).show();
         }
+    }
 
-//        try (FileOutputStream writer = new FileOutputStream(thePathToFile, true)) {
-//            writer.write(row.getBytes(StandardCharsets.UTF_8));
-//            Toast.makeText(getApplicationContext(), "data written into data.txt", Toast.LENGTH_SHORT).show();
-//        }
-//        try (FileOutputStream fout = openFileOutput(thePathToFile.getPath(), MODE_APPEND)){
-//            fout.write(row.getBytes());
-//        }
+    protected String[] readSpinnerStuff(String file){
+        File[] path = getApplicationContext().getExternalMediaDirs();
+        File thePathToFile = new File(path[0], file);
+
+        try (Scanner reader = new Scanner(thePathToFile)) {
+            ArrayList<String> devicesList = new ArrayList<>();
+            while (reader.hasNextLine()){
+                devicesList.add(reader.nextLine());
+            }
+            int listLengt = devicesList.size();
+            String[] devices = new String[listLengt];
+            for(int i = 0; i<listLengt; i++){
+                devices[i] = devicesList.get(i);
+            }
+            return devices;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            //return new String[];
+        }
+
 
     }
+
+    protected String[] readRooms(){
+        return null;
+    }
+
+    protected void writeRoomsToFile(){}
+
+    protected void writeDevicesToFile(){}
 
 }
